@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir archivo GLTF a Cloudinary</title>
+</head>
+<body>
+
+    <h2>Subir archivo GLTF a Cloudinary</h2>
+
+    <!-- Formulario para seleccionar el archivo -->
+    <input type="file" id="fileInput" accept=".gltf,.glb">
+    <button onclick="uploadFile()">Subir archivo</button>
+
+    <p id="status"></p>
+
+    <!-- Script de Cloudinary -->
+    <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
+
+    <script>
+        // Tu Cloud Name de Cloudinary (lo puedes obtener en tu panel de Cloudinary)
+        const cloudName = "du8vk5aza";
+        const uploadPreset = "ml_default"; // Puedes crear un upload preset desde la configuración de tu cuenta
+
+        // Función para subir el archivo
+        function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Por favor selecciona un archivo');
+                return;
+            }
+
+            // Muestra el estado
+            document.getElementById('status').innerText = 'Subiendo archivo...';
+
+            // Crear una instancia del widget de Cloudinary
+            const myWidget = cloudinary.createUploadWidget({
+                cloudName: cloudName,
+                uploadPreset: uploadPreset,
+                sources: ['local'],
+                multiple: false,
+                resourceType: 'auto', // Esto detecta automáticamente el tipo de archivo
+                clientAllowedFormats: ['gltf', 'glb'], // Solo permitir archivos .gltf o .glb
+                // Aquí puedes configurar más opciones si lo deseas
+            }, (error, result) => {
+                if (error) {
+                    console.log('Error al subir el archivo:', error);
+                    document.getElementById('status').innerText = 'Error al subir el archivo';
+                } else if (result && result.event === 'success') {
+                    console.log('Archivo subido con éxito. URL:', result.info.secure_url);
+                    document.getElementById('status').innerText = 'Archivo subido con éxito. URL: ' + result.info.secure_url;
+                }
+            });
+
+            // Abrir el widget de Cloudinary
+            myWidget.open();
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+</head>
+<button onclick="onClick()">DAR CLICK</button>
+
+    <model-viewer id="modelViewer" src="https://res.cloudinary.com/du8vk5aza/image/upload/v1731201625/sin_nombre_hnwmqx.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="1" style="height: 500px; width: 500px;">
+    </model-viewer>
+
+    <script>
+        function onClick() {
+            var modelViewer = document.getElementById('modelViewer');
+            // Cambiar la visibilidad del model-viewer
+            if (modelViewer.style.display === 'none') {
+                modelViewer.style.display = 'block';
+            } else {
+                modelViewer.style.display = 'none';
+            }
+        }
+    </script>
+</html>
