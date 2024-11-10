@@ -3,23 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Model Viewer Repeat Example</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 </head>
-<button onclick="onClick()">DAR CLICK</button>
+<body>
 
-    <model-viewer id="modelViewer" src="https://res.cloudinary.com/du8vk5aza/image/upload/v1731201625/sin_nombre_hnwmqx.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="1" style="height: 500px; width: 500px;">
-    </model-viewer>
+    <!-- Combo box para seleccionar el número de modelos -->
+    <label for="modelCount">Selecciona cuántos modelos mostrar: </label>
+    <select id="modelCount" onchange="updateModelViewers()">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+
+    <!-- Contenedor donde se agregarán los model-viewer dinámicamente -->
+    <div id="modelContainer"></div>
 
     <script>
-        function onClick() {
-            var modelViewer = document.getElementById('modelViewer');
-            // Cambiar la visibilidad del model-viewer
-            if (modelViewer.style.display === 'none') {
-                modelViewer.style.display = 'block';
-            } else {
-                modelViewer.style.display = 'none';
+        function updateModelViewers() {
+            // Obtener el valor seleccionado en el combo box
+            var modelCount = document.getElementById('modelCount').value;
+            var modelContainer = document.getElementById('modelContainer');
+            
+            // Limpiar el contenedor antes de agregar los nuevos modelos
+            modelContainer.innerHTML = '';
+
+            // Agregar la cantidad de <model-viewer> según el valor seleccionado
+            for (let i = 0; i < modelCount; i++) {
+                var modelViewer = document.createElement('model-viewer');
+                modelViewer.setAttribute('src', 'https://res.cloudinary.com/du8vk5aza/image/upload/v1731201625/sin_nombre_hnwmqx.glb');
+                modelViewer.setAttribute('ar', '');
+                modelViewer.setAttribute('ar-modes', 'webxr scene-viewer quick-look');
+                modelViewer.setAttribute('camera-controls', '');
+                modelViewer.setAttribute('tone-mapping', 'neutral');
+                modelViewer.setAttribute('poster', 'poster.webp');
+                modelViewer.setAttribute('shadow-intensity', '1');
+                modelViewer.setAttribute('style', 'height: 500px; width: 500px; margin-bottom: 20px;');
+
+                // Añadir el <model-viewer> al contenedor
+                modelContainer.appendChild(modelViewer);
             }
         }
+
+        // Inicializar con 1 modelo al cargar la página
+        window.onload = updateModelViewers;
     </script>
+
+</body>
 </html>
